@@ -25,7 +25,6 @@
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     html { scroll-behavior: smooth; }
 
     body {
@@ -35,16 +34,8 @@
       min-height: 100vh;
       overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
-      /* FIX 1: Promote body to its own composite layer */
       transform: translateZ(0);
     }
-
-    /*
-     * FIX 2: REMOVED body::before with feTurbulence SVG filter.
-     * That SVG noise filter (position:fixed) was the #1 cause of lag —
-     * the GPU had to re-rasterize it on every scroll and zoom event.
-     * Replaced with a lightweight CSS-only grain that doesn't repaint.
-     */
 
     /* PAGE LOADER */
     .page-loader {
@@ -58,11 +49,7 @@
       flex-direction: column;
       transition: opacity 0.8s ease, visibility 0.8s ease;
     }
-    .page-loader.loaded {
-      opacity: 0;
-      visibility: hidden;
-      pointer-events: none;
-    }
+    .page-loader.loaded { opacity: 0; visibility: hidden; pointer-events: none; }
     .loader-logo {
       font-family: 'Cinzel Decorative', serif;
       font-size: 2.5rem;
@@ -77,14 +64,8 @@
       margin-top: 1.5rem;
       animation: loaderExpand 1.8s ease-in-out infinite;
     }
-    @keyframes loaderPulse {
-      0%, 100% { opacity: 0.4; }
-      50% { opacity: 1; }
-    }
-    @keyframes loaderExpand {
-      0%, 100% { width: 40px; opacity: 0.3; }
-      50% { width: 80px; opacity: 1; }
-    }
+    @keyframes loaderPulse { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
+    @keyframes loaderExpand { 0%, 100% { width: 40px; opacity: 0.3; } 50% { width: 80px; opacity: 1; } }
 
     /* HERO */
     .hero {
@@ -96,43 +77,23 @@
       justify-content: center;
       overflow: hidden;
     }
-
     .hero-bg {
       position: absolute;
       inset: 0;
       background-image: url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1200&q=85');
       background-size: cover;
       background-position: center 30%;
-      /*
-       * FIX 3: Use will-change only here (not on body::before).
-       * The JS parallax is removed; instead we use CSS-only parallax
-       * with background-attachment on desktop only (not on mobile —
-       * background-attachment:fixed causes full-page repaints on iOS).
-       */
       will-change: transform;
       transform: translateZ(0) scale(1.08);
       animation: heroZoom 10s ease-out forwards;
     }
-    @keyframes heroZoom {
-      to { transform: translateZ(0) scale(1); }
-    }
-
+    @keyframes heroZoom { to { transform: translateZ(0) scale(1); } }
     .hero-overlay {
       position: absolute;
       inset: 0;
-      background: linear-gradient(165deg,
-        rgba(15, 10, 5, 0.8) 0%,
-        rgba(20, 18, 16, 0.55) 45%,
-        rgba(15, 10, 5, 0.9) 100%);
+      background: linear-gradient(165deg, rgba(15,10,5,0.8) 0%, rgba(20,18,16,0.55) 45%, rgba(15,10,5,0.9) 100%);
     }
-
-    .hero-content {
-      position: relative;
-      z-index: 2;
-      text-align: center;
-      padding: 2rem;
-    }
-
+    .hero-content { position: relative; z-index: 2; text-align: center; padding: 2rem; }
     .hero-eyebrow {
       font-family: 'Cinzel', serif;
       font-size: 0.58rem;
@@ -141,9 +102,8 @@
       text-transform: uppercase;
       margin-bottom: 1.6rem;
       opacity: 0;
-      animation: fadeUp 0.9s cubic-bezier(0.22, 1, 0.36, 1) 2.2s forwards;
+      animation: fadeUp 0.9s cubic-bezier(0.22,1,0.36,1) 2.2s forwards;
     }
-
     .hero-title {
       font-family: 'Cinzel Decorative', serif;
       font-size: clamp(2.6rem, 12vw, 5rem);
@@ -153,42 +113,34 @@
       letter-spacing: 0.06em;
       text-shadow: 0 4px 50px rgba(0,0,0,0.55);
       opacity: 0;
-      animation: fadeUp 1s cubic-bezier(0.22, 1, 0.36, 1) 2s forwards;
+      animation: fadeUp 1s cubic-bezier(0.22,1,0.36,1) 2s forwards;
     }
-
     .hero-title span {
       display: block;
       font-family: 'Cinzel', serif;
       font-size: 0.38em;
       font-weight: 400;
       letter-spacing: 0.22em;
-      color: rgba(243, 236, 224, 0.65);
+      color: rgba(243,236,224,0.65);
       margin-top: 0.6rem;
     }
-
     .hero-rule {
-      width: 70px;
-      height: 1px;
+      width: 70px; height: 1px;
       background: linear-gradient(90deg, transparent, var(--gold), transparent);
       margin: 1.8rem auto;
       opacity: 0;
       animation: fadeUp 0.8s 2.5s both;
     }
-
     .hero-sub {
       font-family: 'EB Garamond', serif;
       font-style: italic;
       font-size: 1rem;
-      color: rgba(243, 236, 224, 0.55);
+      color: rgba(243,236,224,0.55);
       letter-spacing: 0.06em;
       opacity: 0;
       animation: fadeUp 0.8s 2.7s both;
     }
-
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(28px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
 
     .scroll-cue {
       position: absolute;
@@ -205,45 +157,33 @@
       opacity: 0;
       animation: fadeUp 0.8s 3.2s both;
     }
-
     .scroll-cue span {
       font-family: 'Cinzel', serif;
       font-size: 0.5rem;
       letter-spacing: 0.35em;
-      color: rgba(201, 168, 76, 0.5);
+      color: rgba(201,168,76,0.5);
       text-transform: uppercase;
     }
-
     .scroll-arrow {
-      width: 16px;
-      height: 16px;
-      border-right: 1px solid rgba(201, 168, 76, 0.4);
-      border-bottom: 1px solid rgba(201, 168, 76, 0.4);
+      width: 16px; height: 16px;
+      border-right: 1px solid rgba(201,168,76,0.4);
+      border-bottom: 1px solid rgba(201,168,76,0.4);
       transform: rotate(45deg);
       animation: bounce 2.2s ease-in-out infinite;
     }
+    @keyframes bounce { 0%, 100% { transform: rotate(45deg) translateY(0); } 50% { transform: rotate(45deg) translateY(6px); } }
 
-    @keyframes bounce {
-      0%, 100% { transform: rotate(45deg) translateY(0); }
-      50%       { transform: rotate(45deg) translateY(6px); }
-    }
-
-    /* STICKY NAV
-     * FIX 4: Reduced blur from 24px → 12px. Extreme blur values
-     * (>16px) cost disproportionately more GPU on mobile.
-     * Also added contain: layout style to isolate repaints.
-     */
+    /* STICKY NAV */
     .menu-nav {
       position: sticky;
       top: 0;
       z-index: 100;
-      background: rgba(20, 18, 16, 0.96);
+      background: rgba(20,18,16,0.96);
       backdrop-filter: blur(12px) saturate(1.3);
       -webkit-backdrop-filter: blur(12px) saturate(1.3);
       border-bottom: 1px solid var(--divider);
       contain: layout style;
     }
-
     .menu-nav-inner {
       max-width: 100%;
       margin: 0 auto;
@@ -255,9 +195,7 @@
       scrollbar-width: none;
       -webkit-overflow-scrolling: touch;
     }
-
     .menu-nav-inner::-webkit-scrollbar { display: none; }
-
     .menu-nav a {
       font-family: 'Cinzel', serif;
       font-size: 0.58rem;
@@ -271,29 +209,24 @@
       transition: color 0.3s ease;
       flex-shrink: 0;
     }
-
     .menu-nav a::after {
       content: '';
       position: absolute;
       bottom: 0;
-      left: 18%;
-      right: 18%;
+      left: 18%; right: 18%;
       height: 2px;
       background: var(--gold);
       transform: scaleX(0);
-      transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+      transition: transform 0.4s cubic-bezier(0.22,1,0.36,1);
     }
-
-    .menu-nav a:hover     { color: var(--gold); }
-    .menu-nav a.active    { color: var(--gold); }
-    .menu-nav a.active::after,
-    .menu-nav a:hover::after { transform: scaleX(1); }
+    .menu-nav a:hover { color: var(--gold); }
+    .menu-nav a.active { color: var(--gold); }
+    .menu-nav a.active::after, .menu-nav a:hover::after { transform: scaleX(1); }
 
     /* RESERVE FAB */
     .reserve-fab {
       position: fixed;
-      bottom: 2rem;
-      left: 2rem;
+      bottom: 2rem; left: 2rem;
       z-index: 250;
       background: var(--gold);
       color: var(--ink);
@@ -305,190 +238,69 @@
       padding: 0.9rem 1.6rem;
       border: none;
       cursor: pointer;
-      box-shadow: 0 4px 20px rgba(201, 168, 76, 0.3);
-      transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), background 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 4px 20px rgba(201,168,76,0.3);
+      transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.22,1,0.36,1), background 0.3s ease, box-shadow 0.3s ease;
       opacity: 0;
       transform: translateY(30px);
-      /* FIX 5: promote FAB to composite layer so show/hide doesn't repaint */
       will-change: transform, opacity;
     }
-
-    .reserve-fab.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .reserve-fab:hover {
-      background: var(--gold-light);
-      box-shadow: 0 6px 28px rgba(201, 168, 76, 0.45);
-      transform: translateY(-2px);
-    }
+    .reserve-fab.visible { opacity: 1; transform: translateY(0); }
+    .reserve-fab:hover { background: var(--gold-light); box-shadow: 0 6px 28px rgba(201,168,76,0.45); transform: translateY(-2px); }
 
     /* MENU SECTIONS */
-    .menu-container {
-      width: 100%;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      flex-direction: column;
-    }
+    .menu-container { width: 100%; margin: 0; padding: 0; display: flex; flex-direction: column; }
+    .menu-section { width: 100%; margin: 0; padding: 0; line-height: 0; display: block; contain: layout; }
+    .menu-section .reveal { width: 100%; margin: 0; padding: 0; line-height: 0; }
+    .menu-section img { width: 100%; height: auto; display: block; margin: 0; padding: 0; border-radius: 0; box-shadow: none; }
 
-    .menu-section {
-      width: 100%;
-      margin: 0;
-      padding: 0;
-      line-height: 0;
-      display: block;
-      /* FIX 6: contain prevents layout recalculations from cascading up */
-      contain: layout;
-    }
-
-    .menu-section .reveal {
-      width: 100%;
-      margin: 0;
-      padding: 0;
-      line-height: 0;
-    }
-
-    .menu-section img {
-      width: 100%;
-      height: auto;
-      display: block;
-      margin: 0;
-      padding: 0;
-      border-radius: 0;
-      box-shadow: none;
-      /* FIX 7: hint browser to decode off-main-thread */
-      decoding: async;
-    }
-
-    /* REVEAL ANIMATION */
+    /* REVEAL */
     .reveal {
       opacity: 0;
       transform: translateY(20px);
-      transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
-                  transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+      transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1);
     }
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
 
     /* FOOTER */
-    .footer {
-      background: var(--ink);
-      padding: 4rem 1.5rem;
-      text-align: center;
-      position: relative;
-    }
-
+    .footer { background: var(--ink); padding: 4rem 1.5rem; text-align: center; position: relative; }
     .footer::before {
       content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
+      position: absolute; top: 0; left: 0; right: 0;
       height: 1px;
       background: linear-gradient(90deg, transparent, var(--gold), transparent);
       opacity: 0.3;
     }
-
-    .footer-logo {
-      font-family: 'Cinzel Decorative', serif;
-      font-size: 1.6rem;
-      color: var(--gold);
-      letter-spacing: 0.12em;
-      margin-bottom: 1.2rem;
-    }
-
-    .footer-rule {
-      width: 50px;
-      height: 1px;
-      background: var(--gold);
-      opacity: 0.35;
-      margin: 0 auto 1.2rem;
-    }
-
-    .footer-info {
-      font-family: 'EB Garamond', serif;
-      font-size: 0.85rem;
-      color: rgba(243, 236, 224, 0.4);
-      line-height: 1.9;
-      letter-spacing: 0.03em;
-    }
-
-    .footer-bottom {
-      margin-top: 2.5rem;
-      font-family: 'Cinzel', serif;
-      font-size: 0.45rem;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: rgba(201, 168, 76, 0.25);
-    }
+    .footer-logo { font-family: 'Cinzel Decorative', serif; font-size: 1.6rem; color: var(--gold); letter-spacing: 0.12em; margin-bottom: 1.2rem; }
+    .footer-rule { width: 50px; height: 1px; background: var(--gold); opacity: 0.35; margin: 0 auto 1.2rem; }
+    .footer-info { font-family: 'EB Garamond', serif; font-size: 0.85rem; color: rgba(243,236,224,0.4); line-height: 1.9; letter-spacing: 0.03em; }
+    .footer-bottom { margin-top: 2.5rem; font-family: 'Cinzel', serif; font-size: 0.45rem; letter-spacing: 0.3em; text-transform: uppercase; color: rgba(201,168,76,0.25); }
 
     /* BACK TO TOP */
     .back-to-top {
       position: fixed;
-      bottom: 2rem;
-      right: 2rem;
-      width: 44px;
-      height: 44px;
+      bottom: 2rem; right: 2rem;
+      width: 44px; height: 44px;
       background: var(--ink);
       border: 1px solid var(--gold-muted);
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display: flex; align-items: center; justify-content: center;
       cursor: pointer;
       opacity: 0;
       transform: translateY(20px);
-      transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), background 0.3s ease, border-color 0.3s ease;
+      transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.22,1,0.36,1), background 0.3s ease, border-color 0.3s ease;
       z-index: 200;
       text-decoration: none;
       will-change: transform, opacity;
     }
-
-    .back-to-top.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .back-to-top:hover {
-      background: var(--gold);
-      border-color: var(--gold);
-    }
-
-    .back-to-top svg {
-      width: 16px;
-      height: 16px;
-      stroke: var(--gold);
-      stroke-width: 1.5;
-      fill: none;
-      transition: stroke 0.3s ease;
-    }
-
+    .back-to-top.visible { opacity: 1; transform: translateY(0); }
+    .back-to-top:hover { background: var(--gold); border-color: var(--gold); }
+    .back-to-top svg { width: 16px; height: 16px; stroke: var(--gold); stroke-width: 1.5; fill: none; transition: stroke 0.3s ease; }
     .back-to-top:hover svg { stroke: var(--ink); }
 
     @media (max-width: 640px) {
-      .menu-nav a {
-        font-size: 0.5rem;
-        padding: 0.95rem 0.9rem;
-        letter-spacing: 0.15em;
-      }
-      .back-to-top {
-        bottom: 1.2rem;
-        right: 1.2rem;
-        width: 38px;
-        height: 38px;
-      }
-      .reserve-fab {
-        bottom: 1.2rem;
-        left: 1.2rem;
-        padding: 0.75rem 1.2rem;
-        font-size: 0.5rem;
-      }
-      .hero-title {
-        font-size: clamp(2.2rem, 11vw, 3.5rem);
-      }
+      .menu-nav a { font-size: 0.5rem; padding: 0.95rem 0.9rem; letter-spacing: 0.15em; }
+      .back-to-top { bottom: 1.2rem; right: 1.2rem; width: 38px; height: 38px; }
+      .reserve-fab { bottom: 1.2rem; left: 1.2rem; padding: 0.75rem 1.2rem; font-size: 0.5rem; }
+      .hero-title { font-size: clamp(2.2rem, 11vw, 3.5rem); }
     }
   </style>
 </head>
@@ -519,50 +331,60 @@
     </a>
   </section>
 
-  <!-- MENU NAV -->
+  <!-- MENU NAV — الترتيب الجديد -->
   <nav class="menu-nav" id="menuNav">
     <div class="menu-nav-inner">
       <a href="#pizza" class="active">Pizza</a>
       <a href="#burger">Burger</a>
-      <a href="#desserts">Desserts</a>
       <a href="#sandwich">Sandwich</a>
+      <a href="#pain-maison">Pain Maison</a>
+      <a href="#desserts">Desserts</a>
       <a href="#topping">Salades</a>
     </div>
   </nav>
 
-  <!-- MENU CONTENT -->
+  <!-- MENU CONTENT — الترتيب الجديد -->
   <div class="menu-container" id="menu">
 
+    <!-- 1. PIZZA -->
     <section class="menu-section" id="pizza">
       <div class="reveal visible">
-        <!-- FIX 8: fetchpriority=high on the first image (LCP element) -->
-        <img src="./assets/pizza.png" alt="Pablo's Pizza Menu" fetchpriority="high">
+        <img src="./assets/pizza.png" alt="Pizza Menu" fetchpriority="high">
       </div>
     </section>
 
+    <!-- 2. BURGER -->
     <section class="menu-section" id="burger">
       <div class="reveal visible">
-        <!-- FIX 9: loading=lazy on below-fold images — browser doesn't
-             download them until the user scrolls near them -->
-        <img src="./assets/burgers.png" alt="Pablo's Burger Menu" loading="lazy" decoding="async">
+        <img src="./assets/burgers.png" alt="Burger Menu" loading="lazy" decoding="async">
       </div>
     </section>
 
-    <section class="menu-section" id="desserts">
-      <div class="reveal visible">
-        <img src="./assets/desrets.png" alt="Pablo's Desserts Menu" loading="lazy" decoding="async">
-      </div>
-    </section>
-
+    <!-- 3. SANDWICH -->
     <section class="menu-section" id="sandwich">
       <div class="reveal visible">
-        <img src="./assets/sandwich.png" alt="Pablo's Sandwich Menu" loading="lazy" decoding="async">
+        <img src="./assets/sandwich.png" alt="Sandwich Menu" loading="lazy" decoding="async">
       </div>
     </section>
 
+    <!-- 4. SANDWICH PAIN MAISON (جديد) -->
+    <section class="menu-section" id="pain-maison">
+      <div class="reveal visible">
+        <img src="./assets/sandwich pain maison.png" alt="Sandwich Pain Maison Menu" loading="lazy" decoding="async">
+      </div>
+    </section>
+
+    <!-- 5. DESSERTS -->
+    <section class="menu-section" id="desserts">
+      <div class="reveal visible">
+        <img src="./assets/desrets.png" alt="Desserts Menu" loading="lazy" decoding="async">
+      </div>
+    </section>
+
+    <!-- 6. TOPPING / SALADES -->
     <section class="menu-section" id="topping">
       <div class="reveal visible">
-        <img src="./assets/topping.png" alt="Pablo's Topping Menu" loading="lazy" decoding="async">
+        <img src="./assets/topping.png" alt="Salades & Topping Menu" loading="lazy" decoding="async">
       </div>
     </section>
 
@@ -587,7 +409,6 @@
   </a>
 
   <script>
-    /* ─── PAGE LOADER ─────────────────────────────────────────── */
     window.addEventListener('load', () => {
       setTimeout(() => {
         document.getElementById('pageLoader').classList.add('loaded');
@@ -604,21 +425,15 @@
     function onScroll() {
       if (ticking) return;
       ticking = true;
-
       requestAnimationFrame(() => {
         const scrollY = window.scrollY;
-
-        /* Show/hide floating buttons */
         const showUi = scrollY > window.innerHeight * 0.5;
         backToTop.classList.toggle('visible', showUi);
         reserveFab.classList.toggle('visible', showUi);
 
-        /* Active nav link */
         let current = '';
         sections.forEach(section => {
-          if (scrollY >= section.offsetTop - 140) {
-            current = section.id;
-          }
+          if (scrollY >= section.offsetTop - 140) current = section.id;
         });
         navLinks.forEach(link => {
           link.classList.toggle('active', link.getAttribute('href') === '#' + current);
